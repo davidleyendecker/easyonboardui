@@ -1,13 +1,12 @@
 package wk.easyonboard.ui.components;
 
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import wk.easyonboard.common.datatransfer.EmployeeDTO;
+import wk.easyonboard.ui.extensions.ComponentFactory;
+import wk.easyonboard.ui.extensions.Resources;
 import wk.easyonboard.ui.services.AuthenticationService;
 import wk.easyonboard.ui.views.ApplicationView;
 
@@ -29,13 +28,7 @@ public class MenuBarComponent extends CustomComponent {
     }
 
     private Component buildContent() {
-        final CssLayout menuContent = new CssLayout();
-        menuContent.addStyleName("sidebar");
-        menuContent.addStyleName(ValoTheme.MENU_PART);
-        menuContent.addStyleName("no-vertical-drag-hints");
-        menuContent.addStyleName("no-horizontal-drag-hints");
-        menuContent.setWidth(null);
-        menuContent.setHeight("100%");
+        final CssLayout menuContent = ComponentFactory.crateSidebar();
 
         menuContent.addComponent(buildTitle());
         menuContent.addComponent(buildUserMenu());
@@ -58,20 +51,14 @@ public class MenuBarComponent extends CustomComponent {
         final MenuBar settings = new MenuBar();
         settings.addStyleName("user-menu");
 
-        settingsItem = settings.addItem("", new ThemeResource(
-                "img/profile-pic-300px.jpg"), null);
-        //updateUserName(null);
+        settingsItem = settings.addItem("", Resources.getAvatarResource(null), null);
+
         settingsItem.addItem("Edit Profile", menuItem -> {
-            //ProfilePreferencesWindow.open(user, false);
         });
         settingsItem.addItem("Preferences", menuItem -> {
-            //ProfilePreferencesWindow.open(user, true);
         });
         settingsItem.addSeparator();
         settingsItem.addItem("Sign Out", menuItem -> {
-
-            //DashboardEventBus.post(new UserLoggedOutEvent());
-
         });
         updateUserName();
         return settings;
@@ -107,11 +94,7 @@ public class MenuBarComponent extends CustomComponent {
     private void updateUserName() {
         EmployeeDTO employee = AuthenticationService.getInstance().getCurrentUser();
         settingsItem.setText(employee.getFirstName() + " " + employee.getLastName());
-        Resource avatarResource = new ExternalResource("http://localhost:8080/VAADIN/img/" + employee.getAvatarUrl());
-//        Image image = new Image("", avatarResource);
-//        image.setWidth(200, Unit.PIXELS);
-//        image.setWidth(200, Unit.PIXELS);
-        settingsItem.setIcon(avatarResource);
+        settingsItem.setIcon(Resources.getAvatarResource(employee));
     }
 
     private class ValoMenuItemButton extends Button {

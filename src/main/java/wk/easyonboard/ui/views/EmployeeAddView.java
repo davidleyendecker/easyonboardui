@@ -157,7 +157,7 @@ public class EmployeeAddView extends HeaderViewBase {
             // Save DAO to backend with direct synchronous service API
             EmployeeDTO newEmployee = EmployeeService.getInstance().persist(employee);
             workflowsCombobox.getSelectedItem().ifPresent(workflowDTO -> {
-                WorkflowService.getInstance().createWorkflowForUser(newEmployee, workflowDTO);
+                WorkflowService.getInstance().createWorkflowForEmployee(newEmployee, workflowDTO);
             });
             String msg = String.format("Saved '%s %s'.", newEmployee.getFirstName(), newEmployee.getLastName());
             Notification.show(msg, Notification.Type.TRAY_NOTIFICATION);

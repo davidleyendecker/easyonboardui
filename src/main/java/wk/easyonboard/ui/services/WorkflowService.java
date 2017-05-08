@@ -41,26 +41,39 @@ public class WorkflowService extends BackendService<WorkflowDTO> {
                 .invoke(Integer.class);
     }
 
-    public List<WorkflowItemStatusDTO> getWorkflowStatus(EmployeeDTO employee) {
-        UUID result = buildClient()
-                .path("workflow")
-                .path("employeeStatus")
-                .path(employee.getId().toString())
+    public WorkflowDTO getById(UUID id) {
+        if(id == null) {
+            return null;
+        }
+        return buildClient().path("workflow")
+                .path(id.toString())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .buildGet()
-                .invoke(UUID.class);
+                .invoke(WorkflowDTO.class);
+    }
 
+    public List<UUID> getRunningWorkflows(EmployeeDTO employee) {
+        return buildClient()
+                .path("employee")
+                .path(employee.getId().toString())
+                .path("runningWorkflows")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .buildGet()
+                .invoke(new GenericType<List<UUID>>() {
+                });
+    }
+
+    public List<WorkflowItemStatusDTO> getWorkflowStatus(UUID workflowId) {
         return buildClient()
                 .path("workflow")
-                .path(result.toString())
+                .path(workflowId.toString())
                 .path("status")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .buildGet().invoke(new GenericType<List<WorkflowItemStatusDTO>>() {
                 });
     }
 
-
-    public UUID createWorkflowForUser(EmployeeDTO employee, WorkflowDTO workflowDTO) {
+    public UUID createWorkflowForEmployee(EmployeeDTO employee, WorkflowDTO workflowDTO) {
         UUID result = buildClient()
                 .path("workflow")
                 .path(workflowDTO.getId().toString())

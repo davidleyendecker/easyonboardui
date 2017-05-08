@@ -24,9 +24,10 @@ public class EmployeeListView extends OverviewViewBase<EmployeeDTO> {
 
     @Override
     protected DataProvider<EmployeeDTO, ?> buildDataProvider() {
-        return DataProvider.fromCallbacks(query -> {
-            return EmployeeService.getInstance().getAll().stream();
-        }, query -> EmployeeService.getInstance().getCount());
+        return DataProvider.fromCallbacks(
+                query -> EmployeeService.getInstance().getAll().stream(),
+                query -> EmployeeService.getInstance().getCount()
+        );
     }
 
     @Override

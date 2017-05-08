@@ -16,7 +16,7 @@ import wk.easyonboard.ui.views.ApplicationView;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
  * overridden to add component to the user interface and initialize non-component functionality.
  */
-@Theme("valo")
+@Theme("mytheme")
 public class EasyonboardUi extends UI {
     protected void init(VaadinRequest vaadinRequest) {
 

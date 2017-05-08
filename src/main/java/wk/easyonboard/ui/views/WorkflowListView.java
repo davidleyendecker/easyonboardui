@@ -22,9 +22,10 @@ public class WorkflowListView extends OverviewViewBase<WorkflowDTO> {
 
     @Override
     protected DataProvider<WorkflowDTO, ?> buildDataProvider() {
-        return DataProvider.fromCallbacks(query -> {
-            return WorkflowService.getInstance().getAll().stream();
-        }, query -> WorkflowService.getInstance().getCount());
+        return DataProvider.fromCallbacks(
+                query -> WorkflowService.getInstance().getAll().stream(),
+                query -> WorkflowService.getInstance().getCount()
+        );
     }
 
     @Override

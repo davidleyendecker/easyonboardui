@@ -13,7 +13,6 @@ import java.util.List;
  * Created by david.leyendecker on 26.04.2017.
  */
 public abstract class HeaderViewBase extends Panel implements View {
-    private Label titleLabel;
     private final VerticalLayout root;
     private final ApplicationView applicationView;
 
@@ -49,7 +48,7 @@ public abstract class HeaderViewBase extends Panel implements View {
         header.addStyleName("viewheader");
         header.setSpacing(true);
 
-        titleLabel = new Label(applicationView.getTitle());
+        Label titleLabel = new Label(applicationView.getTitle());
         titleLabel.setId(applicationView.getViewClass().getSimpleName() + "-title");
         titleLabel.setSizeUndefined();
         titleLabel.addStyleName(ValoTheme.LABEL_H1);
